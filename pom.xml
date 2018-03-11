@@ -126,9 +126,16 @@
     </dependency>
 
     <dependency>
-      <groupId>org.github.pagehelper</groupId>
+      <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
-      <version>4.1.0</version>
+      <version>5.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -166,6 +173,17 @@
       <artifactId>logback-classic</artifactId>
       <version>1.2.3</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.8.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
     </dependency>
 
 
