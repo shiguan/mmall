@@ -123,4 +123,16 @@
       update_time =now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByParentId" parameterType="int" resultType="com.mmall.pojo.Category">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_category
+    where parent_id=#{parentId}
+  </select>
+  
+  <select id="selectDeepByParentId" parameterType="int" resultMap="BaseResultMap">
+
+  </select>
+
 </mapper>
