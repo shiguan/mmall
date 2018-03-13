@@ -30,7 +30,7 @@ public class ServerResponse<T> implements Serializable{
     }
     private ServerResponse(int status,String msg){
         this.msg = msg;
-        this.data = data;
+        this.status = status;
     }
 
     @JsonIgnore
