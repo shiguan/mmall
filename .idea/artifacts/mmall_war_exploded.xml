@@ -33,6 +33,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.0.M1" />
           <element id="library" level="project" name="Maven: org.assertj:assertj-core:3.9.1" />
+          <element id="library" level="project" name="Maven: joda-time:joda-time:2.9.9" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.13" />
           <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
           <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5.4" />
@@ -43,6 +44,7 @@
           <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
           <element id="library" level="project" name="Maven: com.google.guava:guava:20.0" />
+          <element id="library" level="project" name="Maven: commons-net:commons-net:3.6" />
         </element>
       </element>
       <element id="directory" name="META-INF">
