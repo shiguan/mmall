@@ -1,5 +1,6 @@
 package com.mmall.service.impl;
 
+import com.google.common.collect.Lists;
 import com.mmall.service.IFileService;
 import com.mmall.utils.FTPUtil;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ public class FileServiceImpl implements IFileService {
             List<File> list = new ArrayList<File>();
             list.add(targetFile);
             FTPUtil.uploadFile(list);
+//             FTPUtil.uploadFile(Lists.newArrayList(targetFile));
 
             // 删除tomcat中的文件
             targetFile.delete();

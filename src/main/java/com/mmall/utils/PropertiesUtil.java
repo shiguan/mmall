@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
@@ -18,10 +19,11 @@ public class PropertiesUtil {
     private static Properties properties;
 
     static{
-        String fileName = "mmall.properties";
+        String fileName = "/mmall.properties";
         properties = new Properties();
         try {
-            properties.load(new InputStreamReader(PropertiesUtil.class.getResourceAsStream(fileName),"UTF-8"));
+            InputStream in = PropertiesUtil.class.getResourceAsStream(fileName);
+            properties.load(new InputStreamReader(in,"UTF-8"));
         } catch (IOException e) {
             logger.error("读取配置文件错误",e);
         }
@@ -43,4 +45,8 @@ public class PropertiesUtil {
         return value.trim();
     }
 
+//    public static void main(String[] args){
+//        String name = getProperties("ftp.server.ip");
+//
+//    }
 }
