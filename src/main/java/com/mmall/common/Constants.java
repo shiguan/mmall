@@ -15,6 +15,14 @@ public class Constants {
 
     public static final String SALT="asdfghjkl";
 
+    public interface Cart{
+        int CHECK_IN = 1;  //购物车选中的状态
+        int CHECK_OUT = 0;
+
+        String LIMIT_NUM_FAIL = "LIMIT_NUM_FAIL";
+        String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";
+    }
+
     public interface OrderBy{
 //        Set<String> set = new HashSet<String>();
         String PRICE_DESC="price_desc";
