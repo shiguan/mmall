@@ -53,4 +53,72 @@ public class Constants {
             return value;
         }
     }
+
+    public enum TradeStatusEnum{
+        CANCELED(0,"已取消"),
+        NO_PAY(10,"未支付"),
+        PAID(20,"已付款"),
+        SHIPPED(30,"已发货"),
+        ORDER_SUCCESS(40,"交易成功"),
+        ORDER_CLOSE(50,"交易关闭");
+        String value;
+        int code;
+
+        TradeStatusEnum(int code,String value) {
+            this.value = value;
+            this.code = code;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+    }
+
+    public interface alipay{
+        String trade_Status_WAIT_BUYER_PAY = "WAIT_BUYER_PAY";
+        String trade_Status_TRADE_CLOSED = "TRADE_CLOSED";
+
+        String response_TRADE_SUCCESS = "TRADE_SUCCESS";
+        String respongse_TRADE_FINISHED = "TRADE_FINISHED";
+    }
+
+    public enum PayPlatformEnum{
+        ALIPAY(1,"支付宝");
+
+        String value;
+        int code;
+
+        PayPlatformEnum(int code,String value) {
+            this.value = value;
+            this.code = code;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+    }
 }
