@@ -1,6 +1,8 @@
 package com.mmall.service;
 
+import com.github.pagehelper.PageInfo;
 import com.mmall.common.ServerResponse;
+import com.mmall.vo.OrderVo;
 
 import java.util.Map;
 
@@ -15,4 +17,12 @@ public interface IOrderService {
     public ServerResponse<Boolean> queryOrderPayStatus(Long orderNo,Integer userId);
 
     public ServerResponse create(Integer shippingId,Integer userId);
+
+    public ServerResponse<String> cancle(Integer userId,Long orderNo);
+
+    public ServerResponse getOrderCartProduct(Integer userId);
+
+    public ServerResponse<OrderVo> detail(Integer userId, Long orderNo);
+
+    public ServerResponse<PageInfo> list(Integer userId, int pageNum, int pageSize);
 }

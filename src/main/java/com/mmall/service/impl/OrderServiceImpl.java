@@ -10,6 +10,8 @@ import com.alipay.demo.trade.model.result.AlipayF2FPrecreateResult;
 import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mmall.common.Constants;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.*;
@@ -20,6 +22,7 @@ import com.mmall.utils.DateUtil;
 import com.mmall.utils.FTPUtil;
 import com.mmall.utils.PropertiesUtil;
 import com.mmall.vo.OrderItemVo;
+import com.mmall.vo.OrderProductVo;
 import com.mmall.vo.OrderVo;
 import com.mmall.vo.ShippingVo;
 import org.apache.commons.lang.StringUtils;
@@ -54,6 +57,79 @@ public class OrderServiceImpl implements IOrderService {
     private ProductMapper productMapper;
     @Autowired
     private ShippingMapper shippingMapper;
+
+    public ServerResponse<PageInfo> list(Integer userId,int pageNum,int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Order> orderList = orderMapper.selectByUserId(userId);
+        List<OrderVo> orderVoList = this.assembleOrderVoList(orderList,userId);
+        //todo ??
+        PageInfo result = new PageInfo(orderList);
+        result.setList(orderVoList);
+        return ServerResponse.createBySuccessData(result);
+    }
+
+    private List<OrderVo> assembleOrderVoList(List<Order> orderList,Integer userId){
+        List<OrderVo> orderVoList = new ArrayList<OrderVo>();
+        for(Order order:orderList){
+            List<OrderItem> orderItemList = null;
+            if(userId == null){
+                //todo 管理员查询的时候不需要userId
+            }else {
+                 orderItemList = orderItemMapper.selectByUserIdAndOrderNo(userId, order.getOrderNo());
+            }
+            orderVoList.add(this.assembleOrderVo(order,orderItemList));
+        }
+        return orderVoList;
+    }
+
+    public ServerResponse<OrderVo> detail(Integer userId,Long orderNo){
+        Order order = orderMapper.selectByUserIdAndOrderNo(userId,orderNo);
+        if(order == null){
+            return ServerResponse.createByErrorMsg("订单不存在");
+        }
+        List<OrderItem> orderItemList = orderItemMapper.selectByUserIdAndOrderNo(userId,orderNo);
+        OrderVo orderVo = this.assembleOrderVo(order,orderItemList);
+        return ServerResponse.createBySuccessData(orderVo);
+    }
+
+    public ServerResponse getOrderCartProduct(Integer userId){
+        OrderProductVo orderProductVo = new OrderProductVo();
+
+        List<Cart> cartList = cartMapper.selectCheckedByUserId(userId);
+        ServerResponse response = this. sumPrice(cartList);
+        if(!response.isSuccess()){
+            return response;
+        }
+        List<OrderItem> orderItemList = (List<OrderItem>) response.getData();
+        //计算总价
+        BigDecimal totalPrice = this.getTotalPrice(orderItemList);
+        List<OrderItemVo> orderItemVoList = new ArrayList<>();
+        for(OrderItem orderItem:orderItemList){
+            orderItemVoList.add(this.assembleOrderItemVo(orderItem));
+        }
+        orderProductVo.setImageHost(PropertiesUtil.getProperties("ftp.server.http.prefix"));
+        orderProductVo.setOrderItemVoList(orderItemVoList);
+        orderProductVo.setTotalPrice(totalPrice);
+        return ServerResponse.createBySuccessData(orderProductVo);
+    }
+
+    public ServerResponse<String> cancle(Integer userId,Long orderNo){
+        Order order = orderMapper.selectByUserIdAndOrderNo(userId,orderNo);
+        if(order == null){
+            return ServerResponse.createByErrorMsg("订单不存在");
+        }
+        if(order.getStatus() >= Constants.TradeStatusEnum.PAID.getCode()){
+            return ServerResponse.createByErrorMsg("订单已经付款，无法取消");
+        }
+        Order updateOrder = new Order();
+        updateOrder.setOrderNo(orderNo);
+        updateOrder.setStatus(Constants.TradeStatusEnum.CANCELED.getCode());
+        int rowCount = orderMapper.updateByPrimaryKeySelective(updateOrder);
+        if(rowCount > 0){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
 
     public ServerResponse create(Integer shippingId,Integer userId){
          List<Cart> cartList = cartMapper.selectCheckedByUserId(userId);
