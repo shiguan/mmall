@@ -13,4 +13,6 @@ public interface IOrderService {
     public ServerResponse callback(Map<String,String> map);
 
     public ServerResponse<Boolean> queryOrderPayStatus(Long orderNo,Integer userId);
+
+    public ServerResponse create(Integer shippingId,Integer userId);
 }

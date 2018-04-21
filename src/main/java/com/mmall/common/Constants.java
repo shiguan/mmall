@@ -84,6 +84,15 @@ public class Constants {
         public void setCode(int code) {
             this.code = code;
         }
+
+        public static TradeStatusEnum codeOf(int code){
+            for(TradeStatusEnum tradeStatusEnum:values()){
+                if(tradeStatusEnum.getCode() == code){
+                    return tradeStatusEnum;
+                }
+            }
+            throw new RuntimeException("没有找到对应的枚举");
+        }
     }
 
     public interface alipay{
@@ -119,6 +128,35 @@ public class Constants {
 
         public void setCode(int code) {
             this.code = code;
+        }
+    }
+
+    public enum PaymentTypeEnum{
+        ONLINE_PAY(1,"在线支付");
+
+        String value;
+        int code;
+
+        PaymentTypeEnum(int code,String value) {
+            this.value = value;
+            this.code = code;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public static PaymentTypeEnum codeOf(int code){
+            for(PaymentTypeEnum paymentTypeEnum:values()){
+                if(paymentTypeEnum.getCode() == code){
+                    return paymentTypeEnum;
+                }
+            }
+            throw new RuntimeException("没有找到对应的枚举");
         }
     }
 }

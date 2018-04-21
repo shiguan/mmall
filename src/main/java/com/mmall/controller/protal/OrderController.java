@@ -32,6 +32,17 @@ public class OrderController {
     private IOrderService iOrderService;
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
+    @RequestMapping("/create.do")
+    @ResponseBody
+    public ServerResponse create(HttpSession session, Integer shippingId){
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorCode(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+
+        return iOrderService.create(shippingId,user.getId());
+    }
+
     @RequestMapping("/pay.do")
     @ResponseBody
     public ServerResponse pay(HttpSession session, long orderNum, HttpServletRequest httpServletRequest){
