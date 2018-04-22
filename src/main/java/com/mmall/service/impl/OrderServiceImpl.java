@@ -58,6 +58,54 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private ShippingMapper shippingMapper;
 
+    public ServerResponse<String> sendGoods(Long orderNo){
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        if(order == null){
+            return ServerResponse.createByErrorMsg("订单不存在");
+        }
+        if(order.getStatus() < Constants.TradeStatusEnum.PAID.getCode()){
+            return ServerResponse.createByErrorMsg("订单未付款");
+        }
+        Order updateOrder = new Order();
+        updateOrder.setOrderNo(orderNo);
+        updateOrder.setStatus(Constants.TradeStatusEnum.SHIPPED.getCode());
+        updateOrder.setSendTime(new Date());
+        int rowCount = orderMapper.updateByPrimaryKeySelective(updateOrder);
+        if(rowCount == 0){
+            return ServerResponse.createByErrorMsg("发货失败");
+        }
+        return ServerResponse.createBySuccessMsg("发货成功");
+    }
+
+
+    public ServerResponse<PageInfo> manageSearchByOrderNo(Long orderNo,int pageNum,int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Order> orderList = orderMapper.searchByOrderNo(orderNo);
+        List<OrderVo> orderVoList = this.assembleOrderVoList(orderList,null);
+        PageInfo result = new PageInfo(orderList);
+        result.setList(orderVoList);
+        return ServerResponse.createBySuccessData(result);
+    }
+
+    public ServerResponse<OrderVo> manageDetail(Long orderNo){
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        if(order == null){
+            return ServerResponse.createByErrorMsg("订单不存在");
+        }
+        List<OrderItem> orderItemList = orderItemMapper.selectByOrderNo(orderNo);
+        OrderVo orderVo = this.assembleOrderVo(order,orderItemList);
+        return ServerResponse.createBySuccessData(orderVo);
+    }
+
+    public ServerResponse<PageInfo> manageList(int pageNum,int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Order> orderList = orderMapper.selectAll();
+        List<OrderVo> orderVoList = this.assembleOrderVoList(orderList,null);
+        PageInfo result = new PageInfo(orderList);
+        result.setList(orderVoList);
+        return ServerResponse.createBySuccessData(result);
+    }
+
     public ServerResponse<PageInfo> list(Integer userId,int pageNum,int pageSize){
         PageHelper.startPage(pageNum,pageSize);
         List<Order> orderList = orderMapper.selectByUserId(userId);
@@ -74,6 +122,7 @@ public class OrderServiceImpl implements IOrderService {
             List<OrderItem> orderItemList = null;
             if(userId == null){
                 //todo 管理员查询的时候不需要userId
+                orderItemList = orderItemMapper.selectByOrderNo(order.getOrderNo());
             }else {
                  orderItemList = orderItemMapper.selectByUserIdAndOrderNo(userId, order.getOrderNo());
             }

@@ -25,4 +25,12 @@ public interface IOrderService {
     public ServerResponse<OrderVo> detail(Integer userId, Long orderNo);
 
     public ServerResponse<PageInfo> list(Integer userId, int pageNum, int pageSize);
+
+    public ServerResponse<PageInfo> manageList(int pageNum,int pageSize);
+
+    public ServerResponse<OrderVo> manageDetail(Long orderNo);
+
+    public ServerResponse<PageInfo> manageSearchByOrderNo(Long orderNo,int pageNum,int pageSize);
+
+    public ServerResponse<String> sendGoods(Long orderNo);
 }
