@@ -1,11 +1,12 @@
 package com.mmall.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by 15M-4528S on 2018/3/14.
  */
-public class ProductListVo {
+public class ProductListVo implements Serializable {
 
     private Integer id;
 

@@ -3,11 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
        xsi:schemaLocation="
      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+     http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <context:component-scan base-package="com.mmall" annotation-config="true"/>
 
@@ -90,7 +92,7 @@
         <property name="rollbackOnCommitFailure" value="true"/>
     </bean>
 
-    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${redis.maxIdle}"/>
         <property name="maxTotal" value="${redis.maxActive}"/>
         <property name="maxWaitMillis" value="${redis.maxWait}"/>
@@ -98,13 +100,14 @@
     </bean>
 
     <bean id="jedisConnectFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="poolConfig" value="jedisPoolConfig"/>
+        <property name="poolConfig" ref="poolConfig"/>
         <property name="hostName" value="${redis.host}"/>
         <property name="port" value="${redis.port}"/>
+        <property name="timeout" value="${redis.timeout}"/>
     </bean>
 
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-        <property name="connectionFactory" value="jedisConnectFactory"/>
+        <property name="connectionFactory" ref="jedisConnectFactory"/>
         <property name="stringSerializer">
             <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
         </property>
@@ -113,4 +116,17 @@
         </property>
     </bean>
 
+    <cache:annotation-driven cache-manager="redisCacheManager"/>
+
+    <bean id="redisCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <!-- 这里可以配置多个redis -->
+        <property name="caches">
+            <set>
+                <bean class="com.mmall.utils.RedisCache">
+                    <property name="redisTemplate" ref="redisTemplate"/>
+                    <property name="name" value="default"/>
+                </bean>
+            </set>
+       </property>
+    </bean>
 </beans>
