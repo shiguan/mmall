@@ -1,4 +1,4 @@
-package com.mmall.controller.protal;
+package com.mmall.controller.customer;
 
 import com.github.pagehelper.PageInfo;
 import com.mmall.common.Constants;
@@ -20,7 +20,7 @@ import java.util.Map;
  * Created by 15M-4528S on 2018/3/18.
  */
 @Controller
-@RequestMapping("/shipping")
+@RequestMapping("/customer/shipping")
 public class ShippingController {
 
     @Autowired

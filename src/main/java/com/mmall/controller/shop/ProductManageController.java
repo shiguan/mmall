@@ -1,4 +1,4 @@
-package com.mmall.controller.backend;
+package com.mmall.controller.shop;
 
 import com.github.pagehelper.PageInfo;
 import com.mmall.common.Constants;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,7 +28,7 @@ import java.util.Map;
  * Created by 15M-4528S on 2018/3/13.
  */
 @Controller
-@RequestMapping("/manage/product")
+@RequestMapping("/shop/product")
 public class ProductManageController {
 
     @Autowired

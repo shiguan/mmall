@@ -1,4 +1,4 @@
-package com.mmall.controller.backend;
+package com.mmall.controller.manager;
 
 import com.github.pagehelper.PageInfo;
 import com.mmall.common.Constants;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  * Created by 15M-4528S on 2018/4/21.
  */
 @Controller
-@RequestMapping("/manage/order")
+@RequestMapping("/manager/order")
 public class OrderManageController {
 
     @Autowired
@@ -73,17 +73,4 @@ public class OrderManageController {
         return iOrderService.manageSearchByOrderNo(orderNo,pageNum,pageSize);
     }
 
-    @RequestMapping("/send_goods.do")
-    @ResponseBody
-    public ServerResponse<String> sendGoods(HttpSession session, Long orderNo) {
-        User user = (User) session.getAttribute(Constants.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.createByErrorCode(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
-        }
-        ServerResponse<String> response = iUserService.checkAdminRole(user);
-        if(!response.isSuccess()){
-            return ServerResponse.createByErrorMsg("用户无权限");
-        }
-        return iOrderService.sendGoods(orderNo);
-    }
 }

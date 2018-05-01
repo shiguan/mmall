@@ -1,4 +1,4 @@
-package com.mmall.controller.protal;
+package com.mmall.controller.customer;
 
 import com.mmall.common.Constants;
 import com.mmall.common.ResponseCode;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * Created by 15M-4528S on 2018/3/18.
  */
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/customer/cart")
 public class CartController {
 
     @Autowired

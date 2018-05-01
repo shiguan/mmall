@@ -1,4 +1,4 @@
-package com.mmall.controller.backend;
+package com.mmall.controller.manager;
 
 import com.mmall.common.Constants;
 import com.mmall.common.ServerResponse;

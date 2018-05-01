@@ -1,4 +1,4 @@
-package com.mmall.controller.protal;
+package com.mmall.controller.customer;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
@@ -27,7 +27,7 @@ import java.util.Map;
  * Created by 15M-4528S on 2018/4/18.
  */
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/customer/order")
 public class OrderController {
 
     @Autowired

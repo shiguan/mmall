@@ -1,4 +1,4 @@
-package com.mmall.controller.protal;
+package com.mmall.controller.visitor;
 
 import com.github.pagehelper.PageInfo;
 import com.mmall.common.Constants;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by 15M-4528S on 2018/3/17.
  */
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/visitor/product")
 public class ProductController {
 
     @Autowired
