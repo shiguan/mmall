@@ -36,7 +36,21 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-
+     
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/customer/**"/>
+            <bean class="com.mmall.interceptor.CustomerInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/shop/**"/>
+            <bean class="com.mmall.interceptor.ShopInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/manager/**"/>
+            <bean class="com.mmall.interceptor.AdminInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 文件上传 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -32,6 +32,7 @@ public class Constants {
     public interface Role{
         int ROLE_CUSTOMER = 0;
         int ROLE_ADMIN = 1;
+        int ROLE_SHOP = 2;
     }
 
     public enum ProductStatus{
